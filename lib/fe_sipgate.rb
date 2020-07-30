@@ -2,43 +2,24 @@
 
 # file: fe_sipgate.rb
 
-require 'ferrum'
+require 'ferrumwizard'
 
 
 class FeSipgate
 
-  def initialize()
-
-    @browser = Ferrum::Browser.new headless: true
-
+  def initialize(debug: false)
+    @fw = FerrumWizard.new('https://login.sipgate.com/', debug: debug)
   end
 
   def login(username: nil, password: nil)
-
-    @browser.goto('https://login.sipgate.com/')
-    @browser.network.wait_for_idle
-    sleep 2 
-
-    a = @browser.xpath('//input')
-    a[0].focus.type(username)
-    a[1].focus.type(password, :Enter)
-    sleep 1 
-    @browser.network.wait_for_idle
-    sleep 2 
-
+    @fw.login(username, password)    
   end
-
+  
   def balance()
-
-    links = @browser.xpath('//a')
-    links[6].click # Account & Invoices
-    sleep 2 
-    @browser.at_css('.balance').text
-
+    @fw.account.balance
   end
 
   def quit()
-    @browser.quit
+    @fw.quit
   end
-
 end

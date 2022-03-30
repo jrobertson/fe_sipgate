@@ -7,14 +7,16 @@ require 'ferrumwizard'
 
 class FeSipgate
 
-  def initialize(debug: false)
-    @fw = FerrumWizard.new('https://login.sipgate.com/', debug: debug)
+  def initialize(debug: false, headless: true, cookies: nil)
+
+    @fw = FerrumWizard.new('https://login.sipgate.com/', headless: headless,
+                           cookies: cookies, debug: debug)
   end
 
-  def login(username: nil, password: nil)
-    @fw.login(username, password)    
+  def login(usernamex=nil, passwordx=nil, username: usernamx, password: passwordx)
+    @fw.login(username, password)
   end
-  
+
   def balance()
     @fw.account.balance
   end
